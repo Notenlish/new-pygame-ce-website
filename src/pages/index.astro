@@ -5,6 +5,8 @@ import '@fontsource/dynapuff';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 
+import CopyCommand from '@/components/CopyCommand.astro';
+
 import { Highlighter } from '@/components/ui/highlighter';
 
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
@@ -19,22 +21,52 @@ import '../styles/global.css';
   <body>
     <Header />
     <main class="flex flex-col items-center mx-auto pt-16 mt-15 md:mt-[88px] w-full px-9 md:px-13 lg:px-16 max-w-7xl">
-      <div class="text-center">
-        <h1 class="text-7xl font-medium py-6 font-[DynaPuff]">
-          <span>The <Highlighter client:load action="highlight" color="#FF9800">First</Highlighter> Choice for</span>
+      <div class="grid place-items-center text-center px-4 py-12 gap-6">
+        <h1 class="text-7xl font-[DynaPuff] leading-tight">
+          <span>
+            The
+            <Highlighter client:load action="highlight" color="#FF9800">First</Highlighter>
+            Choice for
+          </span>
           <span class="block">Making Games in Python</span>
         </h1>
+
         <p class="text-xl text-balance">
           Pygame: Community Edition is a drop-in replacement with modern performance and features maintained by the
           original team from the Pygame Organization.
         </p>
+
+        <CopyCommand command="pip install pygame-ce" />
       </div>
-      <div class="my-6 rounded-3xl overflow-hidden relative">
+      <div class="mb-6 rounded-3xl overflow-hidden relative">
         <video class="w-full block" autoplay loop muted>
           <source src="yawnoc_dafluffypotato.mp4" type="video/mp4" />
         </video>
         <div class="absolute bottom-2 right-3 text-white text-sm bg-black/50 px-2 py-1 rounded-lg">
           "Yawnoc" by DaFluffyPotato
+        </div>
+      </div>
+      <div class="my-6">
+        <h2 class="text-4xl text-center py-6 font-[DynaPuff]">
+          <span class="block">What makes us special?</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-10 w-full max-w-7xl mx-auto">
+          <div class="max-w-2xl text-center">
+            <p class="font-bold text-2xl pb-1">Full Control</p>
+            <p class="text-lg text-balance">
+              You have control over every pixel, sound, and interaction. No limitations.
+            </p>
+          </div>
+          <div class="max-w-2xl text-center">
+            <p class="font-bold text-2xl pb-1">Cross Platform</p>
+            <p class="text-lg text-balance">If Python can run on your device, it can run pygame-ce.</p>
+          </div>
+          <div class="max-w-2xl text-center">
+            <p class="font-bold text-2xl pb-1">Perfect for Teaching</p>
+            <p class="text-lg text-balance">
+              Used by teachers to introduce students to logic, design, and problem-solving.
+            </p>
+          </div>
         </div>
       </div>
     </main>
