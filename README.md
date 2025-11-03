@@ -6,6 +6,10 @@
 
 https://magicui.design/docs/components/highlighter
 
+## TODO
+
+Make the video scroll parallax through different videos
+
 ## Color Scheme
 
 ```

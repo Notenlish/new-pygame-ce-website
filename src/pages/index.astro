@@ -4,6 +4,7 @@ import '@fontsource/dynapuff';
 
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
+import { Image } from 'astro:assets';
 
 import CopyCommand from '@/components/CopyCommand.astro';
 
@@ -11,6 +12,24 @@ import { Highlighter } from '@/components/ui/highlighter';
 
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const firstPost = posts[0];
+
+const games = [
+  {
+    title: 'Yawnoc',
+    developer: 'DaFluffyPotato',
+    video: 'yawnoc_dafluffypotato.mp4',
+  },
+  {
+    title: "Froggo Swing 'n Grapple",
+    developer: 'smellyfrog',
+    video: 'froggo_smellyfrog.mp4',
+  },
+];
+const selectedGameIndex = Math.floor(Math.random() * games.length);
 ---
 
 <!doctype html>
@@ -40,10 +59,10 @@ import '../styles/global.css';
       </div>
       <div class="mb-6 rounded-3xl overflow-hidden relative">
         <video class="w-full block" autoplay loop muted>
-          <source src="yawnoc_dafluffypotato.mp4" type="video/mp4" />
+          <source src={games[selectedGameIndex].video} type="video/mp4" />
         </video>
         <div class="absolute bottom-2 right-3 text-white text-sm bg-black/50 px-2 py-1 rounded-lg">
-          "Yawnoc" by DaFluffyPotato
+          "{games[selectedGameIndex].title}" by {games[selectedGameIndex].developer}
         </div>
       </div>
       <div class="my-6">
@@ -66,6 +85,41 @@ import '../styles/global.css';
             <p class="text-lg text-balance">
               Used by teachers to introduce students to logic, design, and problem-solving.
             </p>
+          </div>
+        </div>
+      </div>
+      <div class="w-full my-6">
+        <h2 class="text-4xl py-6 font-[DynaPuff]">See what we're up to!</h2>
+        <div class="flex">
+          <a class="mr-4" href={`/blog/${firstPost.id}/`}>
+            <div class="grid grid-rows-2 gap-2">
+              {
+                firstPost.data.heroImage && (
+                  <Image class="rounded-lg" width={720} height={360} src={firstPost.data.heroImage} alt="" />
+                )
+              }
+              <div>
+                <h3 class="text-xl font-bold text-pretty">{firstPost.data.title}</h3>
+                <p class="text-sm">{firstPost.data.description}</p>
+              </div>
+            </div>
+          </a>
+          <div class="flex flex-col">
+            {
+              posts.map((post) => (
+                <a class="mb-4" href={`/blog/${post.id}/`}>
+                  <div class="flex flex-row gap-2">
+                    {post.data.heroImage && (
+                      <Image class="rounded-lg" width={240} height={120} src={post.data.heroImage} alt="" />
+                    )}
+                    <div>
+                      <h3 class="text-xl text-pretty">{post.data.title}</h3>
+                      <p class="text-sm">{post.data.description}</p>
+                    </div>
+                  </div>
+                </a>
+              ))
+            }
           </div>
         </div>
       </div>
