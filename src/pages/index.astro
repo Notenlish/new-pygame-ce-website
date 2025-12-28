@@ -13,6 +13,9 @@ import { Highlighter } from '@/components/ui/highlighter';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
+import FormattedDate from '@/components/FormattedDate.astro';
+import { Button } from '@/components/ui/button';
+import { IconBrandDiscord, IconBrandGithub, IconBrandX } from '@tabler/icons-react';
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const firstPost = posts[0];
@@ -29,6 +32,22 @@ const games = [
     video: 'froggo_smellyfrog.mp4',
   },
 ];
+
+const praises = [
+  {
+    author: 'DaFluffyPotato',
+    authorTitle: 'Game Developer',
+    content:
+      'The changes that have been made in the current trajectory of the development are good enough reasons for me to personally switch.',
+  },
+  {
+    author: 'ClearCode',
+    authorTitle: 'YouTuber',
+    content:
+      'Pygame-CE is more modern, has more features, and is more efficient. It is also the only version that is actively worked on.',
+  },
+];
+
 const selectedGameIndex = Math.floor(Math.random() * games.length);
 ---
 
@@ -90,38 +109,38 @@ const selectedGameIndex = Math.floor(Math.random() * games.length);
       </div>
       <div class="w-full my-6">
         <h2 class="text-4xl py-6 font-[DynaPuff]">See what we're up to!</h2>
-        <div class="flex">
-          <a class="mr-4" href={`/blog/${firstPost.id}/`}>
-            <div class="grid grid-rows-2 gap-2">
-              {
-                firstPost.data.heroImage && (
-                  <Image class="rounded-lg" width={720} height={360} src={firstPost.data.heroImage} alt="" />
-                )
-              }
-              <div>
-                <h3 class="text-xl font-bold text-pretty">{firstPost.data.title}</h3>
-                <p class="text-sm">{firstPost.data.description}</p>
-              </div>
-            </div>
-          </a>
-          <div class="flex flex-col">
-            {
-              posts.map((post) => (
-                <a class="mb-4" href={`/blog/${post.id}/`}>
-                  <div class="flex flex-row gap-2">
-                    {post.data.heroImage && (
-                      <Image class="rounded-lg" width={240} height={120} src={post.data.heroImage} alt="" />
-                    )}
-                    <div>
-                      <h3 class="text-xl text-pretty">{post.data.title}</h3>
-                      <p class="text-sm">{post.data.description}</p>
-                    </div>
+        <div class="flex-col gap-4 overflow-x-auto">
+          {
+            posts.map((post) => (
+              <>
+                <a class="w-[240px]" href={`/blog/${post.id}/`}>
+                  <div class="flex justify-between py-2">
+                    <p>{post.data.title}</p>
+                    <FormattedDate date={post.data.pubDate} />
                   </div>
                 </a>
-              ))
-            }
-          </div>
+                <hr />
+              </>
+            ))
+          }
         </div>
+      </div>
+      <div class="w-full my-6">
+        <h2 class="text-4xl text-center py-6 font-[DynaPuff]">Connect with us!</h2>
+        <div class="flex justify-center text-center">
+          <p class="w-3xl">
+            Collaborate with maintainers and contributors around the world on GitHub, connect with the community on
+            Discord, and join the conversation on X as you help shape the future of Python game development.
+          </p>
+        </div>
+        <div class="flex justify-center text-center pt-2 text-gray-800 gap-2">
+          <IconBrandDiscord size={28} />
+          <IconBrandX size={28} />
+          <IconBrandGithub size={28} />
+        </div>
+      </div>
+      <div class="w-full my-6">
+        <p class="py-2 text-center">© 2025 Pygame Community</p>
       </div>
     </main>
   </body>
