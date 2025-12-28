@@ -31,6 +31,11 @@ const games = [
     developer: 'smellyfrog',
     video: 'froggo_smellyfrog.mp4',
   },
+  {
+    title: 'Isometria',
+    developer: 'Big Whoop',
+    video: 'isometria_bigwhoop.mp4',
+  },
 ];
 
 const praises = [
@@ -76,8 +81,8 @@ const selectedGameIndex = Math.floor(Math.random() * games.length);
 
         <CopyCommand command="pip install pygame-ce" />
       </div>
-      <div class="mb-6 rounded-3xl overflow-hidden relative">
-        <video class="w-full block" autoplay loop muted>
+      <div class="mb-6 rounded-3xl overflow-hidden relative w-full">
+        <video class="w-full h-full object-cover block" autoplay loop muted>
           <source src={games[selectedGameIndex].video} type="video/mp4" />
         </video>
         <div class="absolute bottom-2 right-3 text-white text-sm bg-black/50 px-2 py-1 rounded-lg">
