@@ -1,5 +1,6 @@
 ---
 import HeaderLink from './HeaderLink.astro';
+import PygameCeLogo from "@/assets/pygame_ce_logo.svg";
 
 import '@fontsource/geist';
 import '@fontsource/dynapuff';
@@ -9,7 +10,7 @@ import '../styles/global.css';
 <header>
   <nav class="mx-auto w-full px-9 md:px-13 lg:px-16 max-w-7xl flex items-center justify-between p-4">
     <p class="font-bold text-gray-800">
-      <HeaderLink href="/" class="text-gray-700 hover:text-blue-600 transition-colors">pygame-ce</HeaderLink>
+      <HeaderLink href="/" class="text-gray-700 hover:text-blue-600 transition-colors"><PygameCeLogo class="h-20"} /></HeaderLink>
     </p>
     <div class="flex space-x-6">
       <HeaderLink href="/docs" class="text-gray-700">Docs</HeaderLink>
