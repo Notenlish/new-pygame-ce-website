@@ -1,4 +1,6 @@
-import { useEffect, useRef } from "react"
+"use client"
+
+import { useLayoutEffect, useRef } from "react"
 import type React from "react"
 import { useInView } from "motion/react"
 import { annotate } from "rough-notation"
@@ -37,7 +39,6 @@ export function Highlighter({
   isView = false,
 }: HighlighterProps) {
   const elementRef = useRef<HTMLSpanElement>(null)
-  const annotationRef = useRef<RoughAnnotation | null>(null)
 
   const isInView = useInView(elementRef, {
     once: true,
@@ -47,38 +48,38 @@ export function Highlighter({
   // If isView is false, always show. If isView is true, wait for inView
   const shouldShow = !isView || isInView
 
-  useEffect(() => {
-    if (!shouldShow) return
-
+  useLayoutEffect(() => {
     const element = elementRef.current
-    if (!element) return
+    let annotation: RoughAnnotation | null = null
+    let resizeObserver: ResizeObserver | null = null
 
-    const annotationConfig = {
-      type: action,
-      color,
-      strokeWidth,
-      animationDuration,
-      iterations,
-      padding,
-      multiline,
+    if (shouldShow && element) {
+      const annotationConfig = {
+        type: action,
+        color,
+        strokeWidth,
+        animationDuration,
+        iterations,
+        padding,
+        multiline,
+      }
+
+      const currentAnnotation = annotate(element, annotationConfig)
+      annotation = currentAnnotation
+      currentAnnotation.show()
+
+      resizeObserver = new ResizeObserver(() => {
+        currentAnnotation.hide()
+        currentAnnotation.show()
+      })
+
+      resizeObserver.observe(element)
+      resizeObserver.observe(document.body)
     }
 
-    const annotation = annotate(element, annotationConfig)
-
-    annotationRef.current = annotation
-    annotationRef.current.show()
-
-    const resizeObserver = new ResizeObserver(() => {
-      annotation.hide()
-      annotation.show()
-    })
-
-    resizeObserver.observe(element)
-    resizeObserver.observe(document.body)
-
     return () => {
-      if (element) {
-        annotate(element, { type: action }).remove()
+      annotation?.remove()
+      if (resizeObserver) {
         resizeObserver.disconnect()
       }
     }
